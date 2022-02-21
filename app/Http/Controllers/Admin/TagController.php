@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Category;
+use App\Tag;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.categories.index', compact('categories'));
+        return view('admin.tags.index', compact('tags'));
     }
 
     /**
@@ -28,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        return view('admin.tags.create');
     }
 
     /**
@@ -42,27 +42,25 @@ class CategoryController extends Controller
         $data = $request->all();
 
         $request->validate([
-            "name" => "required|string|unique:categories,name",
+            "name" => "required|string|unique:tags,name", 
         ]);
 
-        // dd($data);
+        $tag = new Tag();
+        $tag->name = $data['name'];
 
-
-        $category = new Category();
-        $category->name = $data['name'];
-
-        $slug = Str::of($category->name)->slug("-");
+        $slug = Str::of($tag->name)->slug("-");
         $count = 1;
 
-        while(Category::where("slug", $slug)->first()) {
-            $slug = Str::of($category->title)->slug("-") . "-{$count}";
+        while(Tag::where("slug", $slug)->first()) {
+            $slug = Str::of($tag->title)->slug("-") . "-{$count}";
             $count++;
         }
 
-        $category->slug = $slug;
-        $category->save();
+        $tag->slug = $slug;
 
-        return redirect()->route('categories.show', $category->id);
+        $tag->save();
+
+        return redirect()->route('tags.show', $tag->id);
     }
 
     /**
@@ -71,9 +69,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Tag $tag)
     {
-         return view('admin.categories.show', compact('category'));
+        return view('admin.tags.show', compact('tag'));
     }
 
     /**
@@ -82,9 +80,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Tag $tag)
     {
-        return view("admin.categories.edit", compact('category'));
+        return view("admin.tags.edit", compact('tag'));
+        
     }
 
     /**
@@ -94,26 +93,29 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Tag $tag)
     {
         $data = $request->all();
 
         $request->validate([
-            "name" => "required|string|unique:categories,name",
+            "name" => "required|string|unique:tags,name", 
         ]);
-        $category->name = $data['name'];
 
-        $slug = Str::of($category->name)->slug("-");
+        $tag->name = $data['name'];
+
+        $slug = Str::of($tag->name)->slug("-");
         $count = 1;
 
-        while(Category::where("slug", $slug)->first()) {
-            $slug = Str::of($category->name)->slug("-") . "-{$count}";
+        while(Tag::where("slug", $slug)->first()) {
+            $slug = Str::of($tag->name)->slug("-") . "-{$count}";
             $count++;
         }
 
-        $category->slug = $slug;
-        $category->save();
-        return redirect()->route('categories.show', $category->id);
+        $tag->slug = $slug;
+
+        $tag->save();
+
+        return redirect()->route('tags.show', $tag->id);
     }
 
     /**
@@ -122,10 +124,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Tag $tag)
     {
-        $category->delete();
+        $tag->delete();
 
-        return redirect()->route("categories.index");
+        return redirect()->route('tags.index');
     }
 }

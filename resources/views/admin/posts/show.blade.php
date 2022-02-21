@@ -13,7 +13,15 @@
             <div>pubblicato</div>
         @else
             <div>non pubblicato</div>
-        @endif
+    @endif
+
+    @if (count($post->tags) > 0)
+         <div>Tags: 
+             @foreach ($post->tags as $tag)
+                 <span class="badge badge-light">{{$tag->name}}</span>
+             @endforeach
+         </div>
+    @endif
 
 </div>
 

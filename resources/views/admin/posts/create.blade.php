@@ -31,14 +31,29 @@
           </select>
           @error('category_id')
                 <div class="alert alert-danger">{{$message}}</div> 
-            @enderror
+          @enderror
+        </div>
+
+        
+        <div class="form-group">
+          <h3>Tags</h3>
+  
+            @foreach ($tags as $tag)
+            <div class="form-check form-check-inline">
+              <input type="checkbox" class="form-check-input" id="{{$tag->slug}}" name="tags[]" value="{{$tag->id}}" {{in_array($tag->id, old("tags" ,[]) ) ? 'checked' : ''}}>
+              <label class="form-check-label" for="{{$tag->slug}}">{{$tag->name}}</label>
+            </div>
+              @endforeach
+              @error('tags')
+                  <div class="alert alert-danger">{{$message}}</div> 
+              @enderror
         </div>
 
 
         <div class="form-group form-check">
 
           <input type="checkbox" class="form-check-input @error('published') is-invalid @enderror" id="published" name="published"{{old('published') ? 'checked' : ''}}>
-          <label class="form-check-label" for="exampleCheck1">Pubblica</label>
+          <label class="form-check-label" for="published">Pubblica</label>
             @error('published')
                 <div class="alert alert-danger">{{$message}}</div> 
             @enderror
