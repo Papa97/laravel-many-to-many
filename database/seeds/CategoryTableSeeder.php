@@ -18,7 +18,7 @@ class CategoryTableSeeder extends Seeder
         foreach ($categories as $category){
             $newCategory = new Category();
             $newCategory->name = $category;
-            $newCategory->slug = Str::of($newCategory->title)->slug("-");
+            $newCategory->slug = Str::of($newCategory->name)->slug("-");
             $newCategory->save();
         }
 
