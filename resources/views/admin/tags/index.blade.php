@@ -27,9 +27,9 @@
                     <td>{{$tag->name}}</td>
                     <td>{{$tag->slug}}</td>
                     <td>
-                        <a href="{{route("categories.show", $tag->id)}}"><button type="button" class="btn btn-outline-primary w-100">Vai al post</button></a>
-                        <a href="{{route("categories.edit", $tag->id)}}"><button type="button" class="btn btn-outline-warning w-100">Modifica il post</button></a>
-                        <form action="{{route("categories.destroy", $tag->id)}}" method="POST">
+                        <a href="{{route("tags.show", $tag->id)}}"><button type="button" class="btn btn-outline-primary w-100">Vai al post</button></a>
+                        <a href="{{route("tags.edit", $tag->id)}}"><button type="button" class="btn btn-outline-warning w-100">Modifica il post</button></a>
+                        <form action="{{route("tags.destroy", $tag->id)}}" method="POST">
                         @csrf
                         @method("DELETE")
                             <button type="submit" class="btn btn-outline-danger w-100">Cancella</button>
